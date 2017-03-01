@@ -1,2 +1,2 @@
 # mostly-http
-HTTP powered by Most.js
+> HTTP requests powered by Most.js
