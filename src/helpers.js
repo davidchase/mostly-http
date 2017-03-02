@@ -1,3 +1,5 @@
+const { tryEvent } = require('./tryEvent')
+
 const keys = obj => Object.keys(obj)
 
 module.exports.dissoc = (str, obj) =>
