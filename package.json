@@ -1,0 +1,31 @@
+{
+  "name": "@mostly/http",
+  "version": "1.0.0",
+  "description": "HTTP requests powered by Most.js",
+  "main": "index.js",
+  "dependencies": {
+    "most": "^1.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "tape"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/davidchase/mostly-http.git"
+  },
+  "keywords": [
+    "most",
+    "http",
+    "request",
+    "https",
+    "fetch",
+    "get"
+  ],
+  "author": "David Chase",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidchase/mostly-http/issues"
+  },
+  "homepage": "https://github.com/davidchase/mostly-http#readme"
+}
