@@ -2,7 +2,7 @@ const http = require('http')
 const https = require('https')
 const { parse } = require('url')
 const { tryEvent } = require('./tryEvent')
-const { sendResponse } = require('./helpers')
+const { sendResponse, dissoc } = require('./helpers')
 
 module.exports = class HttpEvent {
     constructor(url, opts) {
