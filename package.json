@@ -22,7 +22,7 @@
     "fetch",
     "get"
   ],
-  "author": "David Chase",
+  "author": "David Chase <davidchase03@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/davidchase/mostly-http/issues"
