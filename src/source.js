@@ -11,11 +11,7 @@ module.exports = class HttpEvent {
     }
 
     _sendResponse(res, chunks, time, sink) {
-        const {
-            statusCode,
-            statusMessage,
-            headers
-        } = res
+        const { statusCode, statusMessage, headers } = res
         const buffer = Buffer.concat(chunks)
         tryEvent(time, {
             statusCode,
