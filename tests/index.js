@@ -7,7 +7,6 @@ export const test = describe('http client', [
     given('given a url', [
         it('can GET it', () => {
             return client(url)
-		    .delay(2200)
 		    .map(resp => resp.json())
 		    .map(obj => equals(url, obj.url))
         })
