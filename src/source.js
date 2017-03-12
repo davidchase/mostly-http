@@ -10,8 +10,12 @@ module.exports = class HttpEvent {
         this.opts = opts
     }
 
-    _sendResponse (res, chunks, time, sink) {
-        const { statusCode, statusMessage, headers } = res
+    _sendResponse(res, chunks, time, sink) {
+        const {
+            statusCode,
+            statusMessage,
+            headers
+        } = res
         const buffer = Buffer.concat(chunks)
         tryEvent(time, {
             statusCode,
@@ -22,7 +26,7 @@ module.exports = class HttpEvent {
             text: () => buffer.toString(),
             json: () => JSON.parse(buffer.toString())
         }, sink)
-	sink.end(time)
+        sink.end(time)
     }
 
     _requestHandler(sink, time, scheduler) {
@@ -52,7 +56,9 @@ module.exports = class HttpEvent {
         req.on('error', error)
         req.on('timeout', () => (req.abort(), error(new Error('Request timed out'))))
         req.end(body)
-        
-	return { dispose: () => req.abort() }
+
+        return {
+            dispose: () => req.abort()
+        }
     }
 }
