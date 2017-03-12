@@ -1,13 +1,30 @@
 const http = require('http')
 const https = require('https')
 const { parse } = require('url')
-const { sendResponse, dissoc } = require('./helpers')
+const { dissoc } = require('./helpers')
+const { tryEvent } = require('./try')
 
 module.exports = class HttpEvent {
     constructor(url, opts) {
         this.url = url
         this.opts = opts
     }
+
+    _sendResponse (res, chunks, time, sink) {
+        const { statusCode, statusMessage, headers } = res
+        const buffer = Buffer.concat(chunks)
+        tryEvent(time, {
+            statusCode,
+            statusMessage,
+            headers,
+            ok: (statusCode / 200 | 0) === 1,
+            buffer,
+            text: () => buffer.toString(),
+            json: () => JSON.parse(buffer.toString())
+        }, sink)
+	sink.end(time)
+    }
+
     _requestHandler(sink, time, scheduler) {
         const self = this
         const chunks = []
@@ -18,7 +35,7 @@ module.exports = class HttpEvent {
                 return
             }
             res.on('data', chunk => chunks.push(chunk))
-            res.on('end', sendResponse.bind(null, res, chunks, time, sink))
+            res.once('end', self._sendResponse.bind(null, res, chunks, time, sink))
         }
     }
     run(sink, scheduler) {
@@ -26,7 +43,6 @@ module.exports = class HttpEvent {
         const url = this.url
         const opts = this.opts
         const error = sink.error.bind(sink, time)
-        const event = sink.event.bind(sink, time)
 
         const options = dissoc('body', Object.assign({}, parse(url), opts))
         const body = opts.body || ''
@@ -36,8 +52,7 @@ module.exports = class HttpEvent {
         req.on('error', error)
         req.on('timeout', () => (req.abort(), error(new Error('Request timed out'))))
         req.end(body)
-        return {
-            dispose: () => req.abort()
-        }
+        
+	return { dispose: () => req.abort() }
     }
 }
